@@ -59,14 +59,14 @@ TagManager:
   - name: Ground
     uniqueID: 3331397733
     locked: 0
-  - name: FrontProps
-    uniqueID: 2791621167
-    locked: 0
   - name: BlockProps
     uniqueID: 3218868861
     locked: 0
   - name: Player
     uniqueID: 1214435003
+    locked: 0
+  - name: FrontProps
+    uniqueID: 2791621167
     locked: 0
   m_RenderingLayers:
   - Default
