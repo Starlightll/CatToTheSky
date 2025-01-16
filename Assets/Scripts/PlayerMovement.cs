@@ -41,11 +41,25 @@ public class PlayerMovement : MonoBehaviour
 
         animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
         animator.SetBool("IsRunning", isRunning);
+        animator.SetFloat("yVelocity", controller.m_Rigidbody2D.linearVelocity.y);
+        animator.SetFloat("IdleTime", controller.m_idleTime);
 
-        if(Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump"))
         {
             jump = true;
+            animator.SetBool("IsJumping", true);
         }
+
+        if (!controller.m_Grounded)
+        {
+            animator.SetBool("IsJumping", true);
+        }
+    }
+
+
+    public void OnLanding()
+    {
+        animator.SetBool("IsJumping", false);
     }
 
     private void FixedUpdate()

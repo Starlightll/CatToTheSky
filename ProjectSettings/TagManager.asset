@@ -41,5 +41,32 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Sky
+    uniqueID: 902835909
+    locked: 0
+  - name: 2Cloud
+    uniqueID: 1715951873
+    locked: 0
+  - name: 3Background
+    uniqueID: 3538260117
+    locked: 0
+  - name: BackgroundProps
+    uniqueID: 2068976661
+    locked: 0
+  - name: MiddleProps
+    uniqueID: 1674310171
+    locked: 0
+  - name: Ground
+    uniqueID: 3331397733
+    locked: 0
+  - name: FrontProps
+    uniqueID: 2791621167
+    locked: 0
+  - name: BlockProps
+    uniqueID: 3218868861
+    locked: 0
+  - name: Player
+    uniqueID: 1214435003
+    locked: 0
   m_RenderingLayers:
   - Default

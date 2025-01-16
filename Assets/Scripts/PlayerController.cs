@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,14 +12,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform m_GroundCheck;                           // A position marking where to check if the player is grounded.
     [SerializeField] private Transform m_CeilingCheck;                          // A position marking where to check for ceilings
     [SerializeField] private Collider2D m_CrouchDisableCollider;                // A collider that will be disabled when crouching
+    [SerializeField] private bool infinityJump = false;
 
     const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
-    private bool m_Grounded;            // Whether or not the player is grounded.
+    public bool m_Grounded;            // Whether or not the player is grounded.
     const float k_CeilingRadius = .2f; // Radius of the overlap circle to determine if the player can stand up
-    private Rigidbody2D m_Rigidbody2D;
+    public Rigidbody2D m_Rigidbody2D;
     private bool m_FacingRight = true;  // For determining which way the player is currently facing.
     private Vector3 m_Velocity = Vector3.zero;
-
+    public float m_idleTime = 0f;
+    private DateTime m_StartTime;
     [Header("Events")]
     [Space]
 
@@ -32,6 +35,8 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        m_StartTime = DateTime.Now;
+
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
 
         if (OnLandEvent == null)
@@ -43,10 +48,20 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(transform.position.y < -10)
+        {
+            Vector2 location = new Vector2(-10, 10);
+            Respawn(location);
+        }
+
+        m_idleTime += Time.deltaTime;
+
         bool wasGrounded = m_Grounded;
         m_Grounded = false;
 
         // The player is grounded if a circlecast to the groundcheck position hits anything designated as ground
+        // This can be done using layers instead but Sample Assets will not overwrite your project settings.
+        // The player is on air if a circle not cast to the groundcheck position hits anything designated as ground
         // This can be done using layers instead but Sample Assets will not overwrite your project settings.
         Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
         for (int i = 0; i < colliders.Length; i++)
@@ -58,11 +73,20 @@ public class PlayerController : MonoBehaviour
                     OnLandEvent.Invoke();
             }
         }
+
+
     }
 
 
     public void Move(float move, bool crouch, bool jump)
     {
+
+        if(move > 0 || move < 0)
+        {
+            m_idleTime = 0f;
+        }
+
+
         // If crouching, check to see if the character can stand up
         if (!crouch)
         {
@@ -125,11 +149,14 @@ public class PlayerController : MonoBehaviour
             }
         }
         // If the player should jump...
-        if (m_Grounded && jump)
+        if (jump)
         {
-            // Add a vertical force to the player.
-            m_Grounded = false;
-            m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
+            if (m_Grounded || infinityJump)
+            {
+                m_Rigidbody2D.linearVelocity = new Vector2(m_Rigidbody2D.linearVelocity.x, 0); // Reset y velocity
+                m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce)); // Add jump 
+                m_Grounded = false; // Reset grounded
+            }
         }
     }
 
@@ -143,5 +170,10 @@ public class PlayerController : MonoBehaviour
         Vector3 theScale = transform.localScale;
         theScale.x *= -1;
         transform.localScale = theScale;
+    }
+
+    private void Respawn(Vector2 location)
+    {
+        transform.position = new Vector3(location.x, location.y, transform.position.z);
     }
 }
