@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 m_Velocity = Vector3.zero;
     public float m_idleTime = 0f;
     private DateTime m_StartTime;
+    private CheckPointManager checkPointManager;
     [Header("Events")]
     [Space]
 
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        checkPointManager = FindFirstObjectByType<CheckPointManager>();
         m_StartTime = DateTime.Now;
 
         m_Rigidbody2D = GetComponent<Rigidbody2D>();
@@ -51,7 +53,7 @@ public class PlayerController : MonoBehaviour
         if(transform.position.y < -10)
         {
             Vector2 location = new Vector2(-10, 10);
-            Respawn(location);
+            checkPointManager.RespawnPlayer();
         }
 
         m_idleTime += Time.deltaTime;
