@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
     public void Move(float move, bool crouch, bool jump)
     {
 
-        if(move > 0 || move < 0)
+        if(move > 0 || move < 0 || jump)
         {
             m_idleTime = 0f;
         }
