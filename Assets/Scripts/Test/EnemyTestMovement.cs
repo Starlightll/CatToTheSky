@@ -72,13 +72,29 @@ public class EnemyTestMovement : MonoBehaviour
                     Debug.Log("Player is on top of the enemy");
                     gameObject.SetActive(false);
                     enemySpawner.enemyPool.Enqueue(gameObject);
-                    return;
+                    break;
                 }
                 else
                 {
                     Debug.Log("Player is on the side of the enemy");
                     collision.gameObject.SetActive(false);
-                    return;
+                    break;
+                }
+            }
+
+        }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            if (collision.gameObject != gameObject)
+            {
+                Debug.Log("Hit other");
+                if (direction == Direction.Right)
+                {
+                    direction = Direction.Left;
+                }
+                else
+                {
+                    direction = Direction.Right;
                 }
             }
         }
