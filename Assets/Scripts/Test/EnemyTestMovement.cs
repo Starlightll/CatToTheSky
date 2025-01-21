@@ -10,6 +10,9 @@ public class EnemyTestMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float rayLength = 0.55f;
 
+    private EnemySpawnerTest enemySpawner;
+
+
     private enum Direction
     {
         Left,
@@ -22,6 +25,7 @@ public class EnemyTestMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        enemySpawner = FindFirstObjectByType<EnemySpawnerTest>();
     }
 
     private void Update()
@@ -32,12 +36,11 @@ public class EnemyTestMovement : MonoBehaviour
 
         if (hitLeft)
         {
-            Debug.Log("Va chạm bên trái!");
             direction = Direction.Right; 
         }
         else if (hitRight)
         {
-            Debug.Log("Va chạm bên phải!");
+            direction = Direction.Left;
         }
 
         if(direction == Direction.Left)
@@ -57,6 +60,7 @@ public class EnemyTestMovement : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + Vector3.right * rayLength);
     }
 
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -67,11 +71,14 @@ public class EnemyTestMovement : MonoBehaviour
                 {
                     Debug.Log("Player is on top of the enemy");
                     gameObject.SetActive(false);
+                    enemySpawner.enemyPool.Enqueue(gameObject);
+                    return;
                 }
                 else
                 {
                     Debug.Log("Player is on the side of the enemy");
                     collision.gameObject.SetActive(false);
+                    return;
                 }
             }
         }
