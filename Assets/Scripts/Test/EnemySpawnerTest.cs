@@ -7,9 +7,12 @@ public class EnemySpawnerTest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     [SerializeField] private int period;
     [SerializeField] private GameObject target;
+    [SerializeField] private float minSpeed = 1;
+    [SerializeField] private float maxSpeed = 10;
     private float time = 0;
 
-    [SerializeField] private int poolSize = 0;
+    [SerializeField] private int poolSize = 50;
+    [SerializeField] private int poolIncrease = 10;
 
 
     //List<GameObject> enemyPool = new List<GameObject>();
@@ -25,7 +28,7 @@ public class EnemySpawnerTest : MonoBehaviour
             enemy.SetActive(false);
             enemyPool.Enqueue(enemy);
         }
-        Debug.Log(enemyPool.Count);
+        //Debug.Log(enemyPool.Count);
     }
 
     // Update is called once per frame
@@ -41,13 +44,23 @@ public class EnemySpawnerTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.P))
         {
+            if (enemyPool.Count == 0)
+            {
+                for (int i = 0; i < poolIncrease; i++)
+                {
+                    GameObject enemy = Instantiate(target);
+                    enemy.SetActive(false);
+                    enemyPool.Enqueue(enemy);
+                }
+            }
             if (enemyPool.Count > 0)
             {
                 GameObject gameObject = enemyPool.Dequeue();
                 gameObject.transform.position = new Vector3 (Random.Range(0, 9), 0, 0);
+                gameObject.GetComponent<EnemyTestMovement>().SetMoveSpped(Random.Range(minSpeed, maxSpeed));
                 gameObject.SetActive(true);
             }
         }
-        //Debug.Log(enemyPool.Count);
+        Debug.Log(enemyPool.Count);
     }
 }

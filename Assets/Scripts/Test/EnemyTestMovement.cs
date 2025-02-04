@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
@@ -8,9 +9,12 @@ public class EnemyTestMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rigidbody2D;
     [Range(0, 400f)][SerializeField] private float moveSpeed = 20f;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private LayerMask obstacleLayer;
+    [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float rayLength = 0.55f;
 
     private EnemySpawnerTest enemySpawner;
+
 
 
     private enum Direction
@@ -22,6 +26,11 @@ public class EnemyTestMovement : MonoBehaviour
     private Direction direction = Direction.Left;
     private Rigidbody2D rb;
 
+    public void SetMoveSpped(float speed)
+    {
+        this.moveSpeed = speed;
+    }
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -30,26 +39,29 @@ public class EnemyTestMovement : MonoBehaviour
 
     private void Update()
     {
-        
-        bool hitLeft = Physics2D.Raycast(transform.position, Vector2.left, rayLength, groundLayer);
-        bool hitRight = Physics2D.Raycast(transform.position, Vector2.right, rayLength, groundLayer);
 
-        if (hitLeft)
-        {
-            direction = Direction.Right; 
-        }
-        else if (hitRight)
-        {
-            direction = Direction.Left;
-        }
+        //bool hitWallLeft = Physics2D.Raycast(transform.position, Vector2.left, rayLength, groundLayer);
+        //bool hitWallRight = Physics2D.Raycast(transform.position, Vector2.right, rayLength, groundLayer);
 
-        if(direction == Direction.Left)
+
+        //if (hitWallLeft)
+        //{
+        //    Debug.Log("HitWall");
+        //    direction = Direction.Right;
+        //}
+        //else if (hitWallRight)
+        //{
+        //    Debug.Log("HitWallRight");
+        //    direction = Direction.Left;
+        //}
+
+        if (direction == Direction.Left)
         {
-            rb.linearVelocity = new Vector2(-moveSpeed * Time.deltaTime, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
         }
         else
         {
-            rb.linearVelocity = new Vector2(moveSpeed * Time.deltaTime, rb.linearVelocity.y);
+            rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
         }
     }
 
@@ -63,40 +75,62 @@ public class EnemyTestMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+
+        foreach (ContactPoint2D hitPos in collision.contacts)
         {
-            foreach (ContactPoint2D hitPos in collision.contacts)
+            if (hitPos.normal.y < 0)
             {
-                if (hitPos.normal.y < 0)
+                if (collision.gameObject.CompareTag("Player"))
                 {
-                    Debug.Log("Player is on top of the enemy");
                     gameObject.SetActive(false);
                     enemySpawner.enemyPool.Enqueue(gameObject);
                     break;
                 }
-                else
+            }
+            else
+            {
+                if (collision.gameObject.CompareTag("Player"))
                 {
-                    Debug.Log("Player is on the side of the enemy");
                     collision.gameObject.SetActive(false);
                     break;
                 }
             }
-
         }
-        if (collision.gameObject.CompareTag("Enemy"))
+
+    }
+
+    public void ChangeDirection(string directionInput)
+    {
+        if(directionInput.ToLower().Equals("left"))
         {
-            if (collision.gameObject != gameObject)
-            {
-                Debug.Log("Hit other");
-                if (direction == Direction.Right)
-                {
-                    direction = Direction.Left;
-                }
-                else
-                {
-                    direction = Direction.Right;
-                }
-            }
+            direction = Direction.Left;
+        }
+        else if (directionInput.ToLower().Equals("right"))
+        {
+            direction = Direction.Right;
         }
     }
-}
+
+        //private void OnCollisionStay2D(Collision2D collision)
+        //{
+        //    foreach (ContactPoint2D hitPos in collision.contacts)
+        //    {
+        //        //Debug.Log(hitPos.normal.x);
+        //        //Debug.Log(hitPos.normal.y);
+        //        if (hitPos.normal.x != 0 && (collision.gameObject.CompareTag("Ground")))
+        //        {
+        //            Debug.Log("HitWall");
+        //            //if (hitPos.normal.x > 0)
+        //            //{
+        //            //    Debug.Log("Right");
+        //            //    direction = Direction.Right;
+        //            //}
+        //            //else
+        //            //{
+        //            //    Debug.Log("Left");
+        //            //    direction = Direction.Left;
+        //            //}
+        //        }
+        //    }
+        //}
+    }
