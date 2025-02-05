@@ -61,6 +61,6 @@ public class EnemySpawnerTest : MonoBehaviour
                 gameObject.SetActive(true);
             }
         }
-        Debug.Log(enemyPool.Count);
+        //Debug.Log(enemyPool.Count);
     }
 }

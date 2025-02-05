@@ -4,6 +4,7 @@ public class PlayerTestMovement : MonoBehaviour
 {
 
     public PlayerTestController controller;
+    public Animator animator;
 
     private float horizontalMove = 0f;
 
@@ -36,13 +37,28 @@ public class PlayerTestMovement : MonoBehaviour
         {
             horizontalMove = Input.GetAxisRaw("Horizontal") * runSpeed;
         }
+        animator.SetFloat("Speed", Mathf.Abs(horizontalMove));
+        animator.SetBool("IsRunning", isRunning);
+        animator.SetFloat("yVelocity", controller.Rigidbody2D.linearVelocity.y);
+        
 
         if (Input.GetButtonDown("Jump"))
         {
             jump = true;
-            Debug.Log("Jumping");
+            animator.SetBool("IsJumping", true);
+            //Debug.Log("Jumping");
 
         }
+
+        if (!controller.isGrounded)
+        {
+            animator.SetBool("IsJumping", true);
+        }
+    }
+
+    public void OnLanding()
+    {
+        animator.SetBool("IsJumping", false);
     }
 
     void FixedUpdate()

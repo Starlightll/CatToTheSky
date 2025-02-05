@@ -9,8 +9,8 @@ public class PlayerMovement : MonoBehaviour
 
     private float horizontalMove = 0f;
 
-    [SerializeField] private float walkSpeed = 10f;
-    [SerializeField] private float runSpeed = 40f;
+    [SerializeField] private float walkSpeed = 2f;
+    [SerializeField] private float runSpeed = 5f;
 
     private bool jump = false;
     private bool isRunning = false;

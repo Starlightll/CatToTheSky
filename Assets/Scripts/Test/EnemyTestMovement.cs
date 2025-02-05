@@ -12,8 +12,10 @@ public class EnemyTestMovement : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float rayLength = 0.55f;
+    [SerializeField] private Animator animator;
 
     private EnemySpawnerTest enemySpawner;
+
 
 
 
@@ -54,14 +56,26 @@ public class EnemyTestMovement : MonoBehaviour
         //    Debug.Log("HitWallRight");
         //    direction = Direction.Left;
         //}
-
+        Vector3 theScale = transform.localScale;
         if (direction == Direction.Left)
         {
             rb.linearVelocity = new Vector2(-moveSpeed, rb.linearVelocity.y);
+            theScale.x = theScale.x > 0 ? theScale.x * -1 : theScale.x;
         }
         else
         {
             rb.linearVelocity = new Vector2(moveSpeed, rb.linearVelocity.y);
+            theScale.x = theScale.x < 0 ? theScale.x * -1 : theScale.x;
+        }
+        transform.localScale = theScale;
+
+        if (moveSpeed > 5)
+        {
+            animator.SetBool("IsRunning", true);
+        }
+        else
+        {
+            animator.SetBool("IsWalking", true);
         }
     }
 
@@ -109,6 +123,14 @@ public class EnemyTestMovement : MonoBehaviour
         {
             direction = Direction.Right;
         }
+    }
+
+    private void Flip()
+    {
+        Vector3 theScale = transform.localScale;
+        theScale.x *= -1;
+        transform.localScale = theScale;
+
     }
 
         //private void OnCollisionStay2D(Collision2D collision)

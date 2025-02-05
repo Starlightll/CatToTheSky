@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class PlayerTestController : MonoBehaviour
 {
@@ -14,14 +15,29 @@ public class PlayerTestController : MonoBehaviour
     [SerializeField] private float jumpForce = 400f;
     [Range(0, .3f)][SerializeField] private float movementSmoothing = .05f;
 
-    private bool isGrounded = false;
+    public bool isGrounded = false;
     private bool wasGrounded = false;
     private bool m_FacingRight = true;
     private Vector3 velocity = Vector3.zero;
+    public Animator animator;
+
+    [Header("Events")]
+    [Space]
+
+    public UnityEvent OnLandEvent;
+
+    [System.Serializable]
+    public class BoolEvent : UnityEvent<bool> { }
+
+
+    public Rigidbody2D Rigidbody2D { get => rigidbody2D; set => rigidbody2D = value; }
 
     void Awake()
     {
         rigidbody2D = GetComponent<Rigidbody2D>();
+
+        if (OnLandEvent == null)
+            OnLandEvent = new UnityEvent();
     }
 
     private void Update()
@@ -38,7 +54,9 @@ public class PlayerTestController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        wasGrounded = isGrounded;
+        bool wasGrounded = isGrounded;
+        //Debug.Log(isGrounded);
+        isGrounded = false;
 
         Collider2D[] colliders = Physics2D.OverlapCircleAll(groundCheck.position, 0.2f, groundLayer);
         for (int i = 0; i < colliders.Length; i++)
@@ -46,6 +64,11 @@ public class PlayerTestController : MonoBehaviour
             if (colliders[i].gameObject != gameObject)
             {
                 isGrounded = true;
+                if(!wasGrounded)
+                {
+                    Debug.Log("OnLandEvent Invoke");
+                    OnLandEvent.Invoke();
+                }
                 //Debug.Log("Grounded");
             }
         }
@@ -76,11 +99,13 @@ public class PlayerTestController : MonoBehaviour
                 rigidbody2D.linearVelocity = new Vector2(rigidbody2D.linearVelocity.x, 0); // Reset y velocity
                 rigidbody2D.AddForce(new Vector2(0f, jumpForce)); // Add jump 
                 isGrounded = false; // Reset grounded
-                Debug.Log("On Jumping");
+                //Debug.Log("On Jumping");
             }
         }
 
     }
+
+
 
     private void Flip()
     {
