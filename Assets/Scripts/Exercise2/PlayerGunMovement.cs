@@ -31,7 +31,7 @@ public class PlayerGunMovement : MonoBehaviour
 
 
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
 
     }
 }
