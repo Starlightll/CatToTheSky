@@ -535,6 +535,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1454417833}
   - component: {fileID: 1454417834}
+  - component: {fileID: 1454417835}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -569,6 +570,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3abbf2de6ac90c5408042240d59750ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1454417835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1454417832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70ce8c1bf1a1c8043a94158d07ad449f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1753116177
@@ -673,11 +686,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6195438160414856254, guid: cb8b97a909c4a8349a388f004f6e288c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.3937
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6195438160414856254, guid: cb8b97a909c4a8349a388f004f6e288c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.9008
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 6195438160414856254, guid: cb8b97a909c4a8349a388f004f6e288c, type: 3}
       propertyPath: m_LocalPosition.z
