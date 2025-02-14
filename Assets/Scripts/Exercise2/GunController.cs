@@ -7,6 +7,7 @@ public class GunController : MonoBehaviour
     public Transform firePoint; 
     public float bulletSpeed = 10f;
     [SerializeField] int bulletPoolSize = 50;
+    private Animator animator;
     public Queue<GameObject> bulletPool = new Queue<GameObject>();
 
 
@@ -22,6 +23,7 @@ public class GunController : MonoBehaviour
                 bulletPool.Enqueue(bullet);
             }
         }
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -32,7 +34,6 @@ public class GunController : MonoBehaviour
             if (bulletPool.Count > 0)
             {
                 Shoot();
-
             }
         }
     }
@@ -45,6 +46,7 @@ public class GunController : MonoBehaviour
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             bullet.SetActive(true);
             rb.linearVelocity = firePoint.up * bulletSpeed;
+            animator.SetTrigger("IsShoot");
     }
 
     public void DeactiveBullet(GameObject bullet)
