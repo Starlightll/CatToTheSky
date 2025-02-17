@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Bullet : MonoBehaviour
 {
@@ -7,12 +8,14 @@ public class Bullet : MonoBehaviour
     public float lifeTime = 3f;
     private GunController gunController;
     private EnemySpawner enemySpawner;
+    private ScoreController scoreController;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         gunController = FindFirstObjectByType<GunController>();
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
+        scoreController = FindFirstObjectByType<ScoreController>();
     }
 
     // Update is called once per frame
@@ -27,7 +30,7 @@ public class Bullet : MonoBehaviour
         {
             gunController.DeactiveBullet(gameObject);
             enemySpawner.DeactiveEnemy(collision.gameObject);
-            
+            scoreController.AddScore(1);
         }
     }
 
