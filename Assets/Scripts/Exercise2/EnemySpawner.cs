@@ -12,6 +12,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int enemyPoolSize = 100;
     private Queue<GameObject> enemies = new Queue<GameObject>();
 
+    [Header("Explosion Setting")]
+    public GameObject explosionPrefab;
+    public float destroyTime = 0.5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -41,6 +45,9 @@ public class EnemySpawner : MonoBehaviour
     public void DeactiveEnemy(GameObject enemy)
     {
         enemies.Enqueue(enemy);
+        GameObject explosion = Instantiate(explosionPrefab, enemy.transform.position, Quaternion.identity);
+        explosion.transform.position = enemy.transform.position;
+        Destroy(explosion, destroyTime);
         enemy.SetActive(false);
     }
 

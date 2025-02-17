@@ -7,6 +7,9 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] Vector2 direction;
     [SerializeField] float speed = 5f;
     EnemySpawner enemySpawner;
+
+  
+
     void Start()
     {
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
@@ -24,6 +27,7 @@ public class EnemyMovement : MonoBehaviour
         if(collision.CompareTag("PlayerAreaBottomLine"))
         {
             enemySpawner.DeactiveEnemy(gameObject);
+            
         }
         //if (collision.CompareTag("Player"))
         //{

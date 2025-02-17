@@ -10,6 +10,10 @@ public class GunController : MonoBehaviour
     private Animator animator;
     public Queue<GameObject> bulletPool = new Queue<GameObject>();
 
+    [Header("Muzzle Flash Settings")]
+    public ParticleSystem muzzleFlashParticle; 
+    public Transform muzzlePoint;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -47,6 +51,7 @@ public class GunController : MonoBehaviour
             bullet.SetActive(true);
             rb.linearVelocity = firePoint.up * bulletSpeed;
             animator.SetTrigger("IsShoot");
+            ShowMuzzleFlash();
     }
 
     public void DeactiveBullet(GameObject bullet)
@@ -55,5 +60,11 @@ public class GunController : MonoBehaviour
         bulletPool.Enqueue(bullet);
         bullet.SetActive(false);
         //Debug.Log("Bullet out of area");
+    }
+
+    void ShowMuzzleFlash()
+    {
+        //muzzleFlashParticle.transform.position = muzzlePoint.position;
+        muzzleFlashParticle.Play();
     }
 }
