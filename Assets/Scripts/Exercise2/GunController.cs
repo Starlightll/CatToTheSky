@@ -1,23 +1,32 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class GunController : MonoBehaviour
 {
-    public GameObject bulletPrefab; 
+    public GameObject bulletPrefab;
+    public GameObject missilePrefab;
     public Transform firePoint; 
     public float bulletSpeed = 10f;
     [SerializeField] int bulletPoolSize = 50;
     private Animator animator;
     public Queue<GameObject> bulletPool = new Queue<GameObject>();
+    private HomingMissileController homingMissileController;
+    private GameObject target;
 
     [Header("Muzzle Flash Settings")]
     public ParticleSystem muzzleFlashParticle; 
     public Transform muzzlePoint;
 
+    [Header("Missile Setting")]
+    public float speed = 20f;
+    public float rotationSpeed = 1000f;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        homingMissileController = GetComponent<HomingMissileController>();
         for (int i = 0; i < bulletPoolSize; i++)
         {
             GameObject bullet = Instantiate(bulletPrefab);
@@ -39,6 +48,14 @@ public class GunController : MonoBehaviour
             {
                 Shoot();
             }
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            homingMissileController.Skill_1(speed, rotationSpeed, firePoint);
+        }
+        if (Input.GetKeyDown(KeyCode.G))
+        {   
+            homingMissileController.activeUltimate(speed, rotationSpeed, firePoint, 5);
         }
     }
 
@@ -67,4 +84,12 @@ public class GunController : MonoBehaviour
         //muzzleFlashParticle.transform.position = muzzlePoint.position;
         muzzleFlashParticle.Play();
     }
+
+   
+
+    
+
+
+
+    
 }

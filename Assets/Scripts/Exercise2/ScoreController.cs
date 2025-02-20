@@ -9,7 +9,15 @@ public class ScoreController : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
     void Start()
     {
-        UpdateScore();
+        if(scoreText == null)
+        {
+            Debug.LogError("Score Text is not assigned");
+            scoreText = GameObject.Find("ScoreText").GetComponent<TMPro.TextMeshProUGUI>();
+        }
+        else
+        {
+            scoreText.text = "Score: " + score;
+        }
 
     }
 
@@ -27,6 +35,10 @@ public class ScoreController : MonoBehaviour
 
     private void UpdateScore()
     {
-        scoreText.text = "Score: " + score.ToString();
+        if (score < 0)
+        {
+            score = 0;
+        }
+        scoreText.text = "Score: " + score;
     }
 }

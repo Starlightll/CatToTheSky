@@ -29,8 +29,7 @@ public class Bullet : MonoBehaviour
         if (collision.CompareTag("Enemy")) 
         {
             gunController.DeactiveBullet(gameObject);
-            enemySpawner.DeactiveEnemy(collision.gameObject);
-            scoreController.AddScore(1);
+            enemySpawner.KillEnemy(collision.gameObject);
         }
     }
 

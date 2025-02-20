@@ -9,6 +9,7 @@ TagManager:
   - PlayerArea
   - PlayerBullet
   - PlayerAreaBottomLine
+  - Missile
   layers:
   - Default
   - TransparentFX

@@ -12,6 +12,9 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] int enemyPoolSize = 100;
     private Queue<GameObject> enemies = new Queue<GameObject>();
 
+    private ScoreController scoreController;
+
+
     [Header("Explosion Setting")]
     public GameObject explosionPrefab;
     public float destroyTime = 0.5f;
@@ -19,6 +22,8 @@ public class EnemySpawner : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+
+        scoreController = FindFirstObjectByType<ScoreController>();
         for (int i = 0; i < enemyPoolSize; i++)
         {
             GameObject enemy = Instantiate(enemyPrefab, new Vector2(0, 0), Quaternion.identity);
@@ -37,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
             GameObject enemy = enemies.Dequeue();
             enemy.SetActive(true);
             enemy.transform.rotation = Quaternion.Euler(0, 0, 180);
-            enemy.transform.position = new Vector2(Random.Range(-spawnRadius, spawnRadius), 6);
+            enemy.transform.position = new Vector2(Random.Range(-spawnRadius, spawnRadius), transform.position.y);
 
         }
     }
@@ -49,6 +54,30 @@ public class EnemySpawner : MonoBehaviour
         explosion.transform.position = enemy.transform.position;
         Destroy(explosion, destroyTime);
         enemy.SetActive(false);
+    }
+
+
+ 
+    public void KillEnemy (GameObject gameObject)
+    {
+        DeactiveEnemy(gameObject);
+        try
+        {
+            scoreController.AddScore(1);
+        }
+        catch
+        {
+            Debug.Log("ScoreController not found");
+        }
+
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Vector3 from = new Vector3(transform.position.x - spawnRadius, transform.position.y, 0);
+        Vector3 to = new Vector3(transform.position.x + spawnRadius, transform.position.y, 0);
+        Gizmos.DrawLine(from, to);
     }
 
 }
