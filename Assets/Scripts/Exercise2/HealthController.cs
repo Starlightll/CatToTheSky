@@ -47,6 +47,7 @@ public class HealthController : MonoBehaviour
     private void UpdateHealthBar()
     {
         fillImage.fillAmount = currentHealth / maxHealth;
+        fillImage.color = Color.Lerp(Color.red, Color.green, currentHealth / maxHealth);
     }
 
 

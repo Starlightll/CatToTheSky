@@ -13,6 +13,7 @@ public class PlaySceneController : MonoBehaviour
     {
         isPaused = false;
         Time.timeScale = 1f;
+        ScoreController.score = 0;
     }
     
     void Start()
