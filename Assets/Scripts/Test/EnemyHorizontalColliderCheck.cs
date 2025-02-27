@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class EnemyHorizontalColliderCheck : MonoBehaviour
@@ -7,7 +6,6 @@ public class EnemyHorizontalColliderCheck : MonoBehaviour
     [SerializeField] private GameObject enemy;
     private EnemyTestMovement enemyMovement;
 
-    private Direction direction;
    
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
