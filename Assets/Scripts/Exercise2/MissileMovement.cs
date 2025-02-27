@@ -45,7 +45,7 @@ public class MissileMovement : MonoBehaviour
             Vector2 targetPosition = target.transform.position;
             //Debug.Log(timer);
 
-            if (isHoming && timer > 0.1f)
+            if (isHoming)
             {
                 //direction = (Vector2)target.transform.position - rb.position;
                 targetPosition = PredictFuturePosition();
@@ -59,7 +59,8 @@ public class MissileMovement : MonoBehaviour
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
         float currentAngle = rb.rotation;
 
-        float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * timer * Time.fixedDeltaTime / 100f);
+        float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * timer*timer);
+        //float newAngle = targetAngle * rotationSpeed;
 
         rb.rotation = newAngle;
 
@@ -69,7 +70,7 @@ public class MissileMovement : MonoBehaviour
         //Predict the future position of the target
         
 
-        rb.linearVelocity = transform.up * homingSpeed * (timer/1.5f);
+        rb.linearVelocity = transform.up * homingSpeed;
 
     }
 

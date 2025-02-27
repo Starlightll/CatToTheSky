@@ -7,12 +7,14 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] Vector2 direction;
     [SerializeField] float speed = 5f;
     EnemySpawner enemySpawner;
+    HealthController healthController;
 
-  
+
 
     void Start()
     {
         enemySpawner = FindFirstObjectByType<EnemySpawner>();
+        healthController = FindFirstObjectByType<HealthController>();
     }
 
     // Update is called once per frame
@@ -27,7 +29,8 @@ public class EnemyMovement : MonoBehaviour
         if(collision.CompareTag("PlayerAreaBottomLine"))
         {
             enemySpawner.DeactiveEnemy(gameObject);
-            
+            healthController.TakeDamage(5);
+
         }
         //if (collision.CompareTag("Player"))
         //{

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;   
+
 
 public class ScoreController : MonoBehaviour
 {
@@ -7,8 +9,11 @@ public class ScoreController : MonoBehaviour
     private int score = 0;
 
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
+    Text txtPause;
+    bool isRunning;
     void Start()
     {
+        isRunning = true;
         if(scoreText == null)
         {
             Debug.LogError("Score Text is not assigned");
@@ -40,5 +45,20 @@ public class ScoreController : MonoBehaviour
             score = 0;
         }
         scoreText.text = "Score: " + score;
+    }
+
+    public void PauseGame()
+    {
+        isRunning = !isRunning;
+        if (isRunning)
+        {
+            Time.timeScale = 1;
+            txtPause.text = "Pause";
+        }
+        else
+        {
+            Time.timeScale = 0;
+            txtPause.text = "Resume";
+        }
     }
 }

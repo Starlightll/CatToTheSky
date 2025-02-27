@@ -52,10 +52,10 @@ public class GunController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F))
         {
             homingMissileController.Skill_1(speed, rotationSpeed, firePoint);
-        }
+        }   
         if (Input.GetKeyDown(KeyCode.G))
         {   
-            homingMissileController.activeUltimate(speed, rotationSpeed, firePoint, 5);
+            homingMissileController.activeUltimate(speed, rotationSpeed, firePoint, 20);
         }
     }
 

@@ -112,11 +112,11 @@ public class HomingMissileController : MonoBehaviour
 
         if (enemies.Length > 0)
         {
-            GameObject target = enemies.OrderBy(x => Vector2.Distance(startPos.position, x.transform.position)).First();
+            GameObject target = enemies.OrderBy(x => x.transform.position.y).First();
             FireMissile(new Vector2(0, 1), true, speed, rotationSpeed, startPos, target);
         }
         else {
-            FireMissile(new Vector2(0, 1), true, 20f, 1000f, startPos, null);
+            FireMissile(new Vector2(0, 1), true, speed, rotationSpeed, startPos, null);
         }
     }
 
