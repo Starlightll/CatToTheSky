@@ -55,10 +55,10 @@ public class GunController : MonoBehaviour
                 Shoot();
             }
         }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            homingMissileController.Skill_1(speed, rotationSpeed, firePoint);
-        }   
+        //if (Input.GetKeyDown(KeyCode.F))
+        //{
+        //    homingMissileController.Skill_1(speed, rotationSpeed, firePoint);
+        //}   
         //if (Input.GetKeyDown(KeyCode.G) && playerSkillController.UseSkill("Ultimate") == true)
         //{   
         //    homingMissileController.activeUltimate(speed, rotationSpeed, firePoint, 20);

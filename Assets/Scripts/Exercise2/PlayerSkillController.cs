@@ -39,7 +39,7 @@ public class PlayerSkillController : MonoBehaviour
         }
 
         if (Input.GetKeyDown(KeyCode.G)) UseSkill("Ultimate");
-        if (Input.GetKeyDown(KeyCode.Alpha2)) UseSkill("Lightning");
+        if (Input.GetKeyDown(KeyCode.F)) UseSkill("Primative");
         if (Input.GetKeyDown(KeyCode.Alpha3)) UseSkill("IceBlast");
     }
 
@@ -67,6 +67,9 @@ public class PlayerSkillController : MonoBehaviour
         {
             case "Ultimate":
                 _homeHomingMissileController.activeUltimate(ProjectileSpeed, ProjectileRotationSpeed,FirePoint, NumberOfProjectiles);
+                break;
+            case "Primative":
+                _homeHomingMissileController.Skill_1(ProjectileSpeed, ProjectileRotationSpeed, FirePoint);
                 break;
             default:
                 break;
