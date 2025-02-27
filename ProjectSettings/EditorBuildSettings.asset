@@ -11,6 +11,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 0a76245c5650c804cb4dcec89b523947
+  - enabled: 1
+    path: Assets/Scenes/Exercuse2/StartScene.unity
+    guid: 916b72418af335d48a3eec3b57c77f42
+  - enabled: 1
+    path: Assets/Scenes/Exercuse2/DeadScene.unity
+    guid: 14098278b57e872458c0500646eb872c
+  - enabled: 1
+    path: Assets/Scenes/Exercuse2/PlayScene.unity
+    guid: 91414cd1db739764ab8ff38fa772da19
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -1,9 +1,9 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BạckgroundController : MonoBehaviour
+public class BackgroundControllerExercise2 : MonoBehaviour
 {
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public float speed = 1.0f;
 
     [SerializeField] private Renderer backgroundRenderer;
@@ -14,13 +14,13 @@ public class BạckgroundController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-       
+
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        backgroundRenderer.material.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0) ;
+        backgroundRenderer.material.mainTextureOffset += new Vector2(speed * Time.deltaTime, 0);
     }
 }

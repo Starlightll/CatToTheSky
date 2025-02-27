@@ -31,7 +31,8 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (PlaySceneController.isPaused) return;
+        if (Input.GetMouseButtonDown(0))
         {
             direction = gunBody.transform.position - gunBarret.transform.position;
             Debug.Log(direction);

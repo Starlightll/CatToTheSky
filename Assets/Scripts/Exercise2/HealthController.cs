@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class HealthController : MonoBehaviour
@@ -8,11 +9,19 @@ public class HealthController : MonoBehaviour
     public float maxHealth = 100;
     public float currentHealth;
 
-    void Start()
+    private void Start()
     {
-
         currentHealth = maxHealth;
+        UpdateHealthBar();
+    }
 
+
+    private void Update()
+    {
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
     }
 
 
@@ -27,4 +36,15 @@ public class HealthController : MonoBehaviour
     {
         fillImage.fillAmount = currentHealth / maxHealth;
     }
+
+
+    void Die()
+    {
+        ScoreController.SaveCurrentScore();
+        ScoreController.SaveBestScore();
+        SceneManager.LoadScene("DeadScene");
+    }
+
+
+
 }

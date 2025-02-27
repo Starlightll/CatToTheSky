@@ -14,13 +14,19 @@ public class GunController : MonoBehaviour
     private HomingMissileController homingMissileController;
     private GameObject target;
 
+
     [Header("Muzzle Flash Settings")]
     public ParticleSystem muzzleFlashParticle; 
     public Transform muzzlePoint;
 
+    
+
+
     [Header("Missile Setting")]
     public float speed = 20f;
     public float rotationSpeed = 1000f;
+
+    
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -42,6 +48,7 @@ public class GunController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlaySceneController.isPaused) return;
         if (Input.GetMouseButtonDown(0))
         {
             if (bulletPool.Count > 0)
@@ -53,10 +60,10 @@ public class GunController : MonoBehaviour
         {
             homingMissileController.Skill_1(speed, rotationSpeed, firePoint);
         }   
-        if (Input.GetKeyDown(KeyCode.G))
-        {   
-            homingMissileController.activeUltimate(speed, rotationSpeed, firePoint, 20);
-        }
+        //if (Input.GetKeyDown(KeyCode.G) && playerSkillController.UseSkill("Ultimate") == true)
+        //{   
+        //    homingMissileController.activeUltimate(speed, rotationSpeed, firePoint, 20);
+        //}
     }
 
     void Shoot()

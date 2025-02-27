@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;   
 
 
@@ -6,7 +8,9 @@ public class ScoreController : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    private int score = 0;
+    public static int score = 0;
+    private const string BestScoreKey = "BestScore";
+    private const string CurrentScoreKey = "CurrentScore";
 
     [SerializeField] private TMPro.TextMeshProUGUI scoreText;
     Text txtPause;
@@ -60,5 +64,33 @@ public class ScoreController : MonoBehaviour
             Time.timeScale = 0;
             txtPause.text = "Resume";
         }
+    }
+
+
+    public static void SaveCurrentScore()
+    {
+        PlayerPrefs.SetInt(CurrentScoreKey, score);
+        PlayerPrefs.Save();
+    }
+
+    public static void SaveBestScore()
+    {
+        int bestScore = PlayerPrefs.GetInt(BestScoreKey, 0);
+        if (score > bestScore)
+        {
+            PlayerPrefs.SetInt(BestScoreKey, score);
+            PlayerPrefs.Save();
+        }
+    }
+
+    public static int GetCurrentScore()
+    {
+        return PlayerPrefs.GetInt(CurrentScoreKey, 0);
+    }
+
+
+    public static int GetBestScore()
+    {
+        return PlayerPrefs.GetInt(BestScoreKey, 0);
     }
 }

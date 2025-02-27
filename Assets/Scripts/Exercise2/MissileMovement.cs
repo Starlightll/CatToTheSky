@@ -29,7 +29,8 @@ public class MissileMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(target == null || target.activeSelf == false)
+        if (PlaySceneController.isPaused) return;
+        if (target == null || target.activeSelf == false)
         {
             target = null;
             FindTarget();
@@ -38,38 +39,33 @@ public class MissileMovement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 direction = startDirection;
+        // Default direction is the starting direction
+        Vector2 direction = startDirection.normalized;
         timer += Time.deltaTime;
-        if (target != null)
-        {
-            Vector2 targetPosition = target.transform.position;
-            //Debug.Log(timer);
 
-            if (isHoming)
-            {
-                //direction = (Vector2)target.transform.position - rb.position;
-                targetPosition = PredictFuturePosition();
-                direction = targetPosition - rb.position;
-            }
-            
+        // If we have a target and are homing, calculate the direction to it
+        if (target != null && isHoming)
+        {
+            Vector2 targetPosition = PredictFuturePosition();
+            direction = (targetPosition - rb.position).normalized;
         }
 
-        direction.Normalize();
-
+        // Calculate target angle in degrees (0 degrees points right, positive is counter-clockwise)
         float targetAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f;
-        float currentAngle = rb.rotation;
 
-        float newAngle = Mathf.LerpAngle(currentAngle, targetAngle, rotationSpeed * timer*timer);
-        //float newAngle = targetAngle * rotationSpeed;
+        // Calculate maximum angular change this frame based on rotationSpeed
+        float maxRotation = rotationSpeed * Time.fixedDeltaTime;
 
-        rb.rotation = newAngle;
+        // Find the shortest angle difference (may be negative)
+        float angleDifference = Mathf.DeltaAngle(rb.rotation, targetAngle);
 
-        //float rotateAmount = Vector3.Cross(direction, transform.up).z;
-        //rb.angularVelocity = -rotateAmount * rotationSpeed;
+        // Limit rotation to maxRotation degrees per frame (for smooth turning)
+        float rotationThisFrame = Mathf.Clamp(angleDifference, -maxRotation, maxRotation);
 
-        //Predict the future position of the target
-        
+        // Apply the clamped rotation
+        rb.rotation += rotationThisFrame;
 
+        // Move forward in the direction we're facing
         rb.linearVelocity = transform.up * homingSpeed;
 
     }
@@ -77,15 +73,15 @@ public class MissileMovement : MonoBehaviour
     
 
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Enemy"))
-        {
-            enemySpawner.KillEnemy(collision.gameObject);
-            Destroy(gameObject);
-        }
+    //private void OnTriggerEnter2D(Collider2D collision)
+    //{
+    //    if (collision.CompareTag("Enemy"))
+    //    {
+    //        enemySpawner.KillEnemy(collision.gameObject);
+    //        Destroy(gameObject);
+    //    }
 
-    }
+    //}
 
     private void OnTriggerExit2D(Collider2D collision)
     {

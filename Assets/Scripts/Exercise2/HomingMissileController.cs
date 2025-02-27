@@ -1,7 +1,11 @@
+using System;
 using UnityEngine;
 using System.Linq;
 using Mono.Cecil;
 using System.Collections.Generic;
+using System.Collections;
+using static UnityEngine.EventSystems.EventTrigger;
+using Random = UnityEngine.Random;
 
 public class HomingMissileController : MonoBehaviour
 {
@@ -32,77 +36,100 @@ public class HomingMissileController : MonoBehaviour
 
     }
 
-
     public void activeUltimate(float speed, float rotationSpeed, Transform startPos, int size)
+    {
+        StartCoroutine(FireMissilesCoroutine(speed, rotationSpeed, startPos, size));
+    }
+
+    private IEnumerator FireMissilesCoroutine(float speed, float rotationSpeed, Transform startPos, int size)
     {
         List<GameObject> enemies = GameObject.FindGameObjectsWithTag("Enemy").OrderBy(x => x.transform.position.y).ToList();
         float count = 0;
-        foreach (GameObject enemy in enemies)
+
+        for (int i = 0; i < size+enemies.Count; i++)
         {
-            if (count < size)
+            try
             {
-                if (enemies.Count % 2 == 0)
-                {
-                    if (count % 2 == 0)
-                    {
-                        FireMissile(new Vector2(count, 1), true, speed, rotationSpeed, startPos, enemy);
-                    }
-                    else
-                    {
-                        FireMissile(new Vector2(-count + 1f, 1), true, speed, rotationSpeed, startPos, enemy);
-                    }
-                }
-                else
-                {
-                    if (count == 0)
-                    {
-                        FireMissile(new Vector2(0, 1), true, speed, rotationSpeed, startPos, enemy);
-                    }
-                    else if (count % 2 == 0)
-                    {
-                        FireMissile(new Vector2(count, 1), true, speed, rotationSpeed, startPos, enemy);
-                    }
-                    else
-                    {
-                        FireMissile(new Vector2(-count + 1f, 1), true, speed, rotationSpeed, startPos, enemy);
-                    }
-                }
-                count++;
+                FireMissile(new Vector2(Random.Range(-1f, 1f), 1), true, speed, rotationSpeed, startPos, enemies[i]);
             }
-        }
-        int remaining = size - enemies.Count;
-        if (remaining > 0)
-        {
-            for (int i = 0; i < remaining; i++)
+            catch (Exception ex)
             {
-                if (remaining % 2 == 0)
-                {
-                    if (i % 2 == 0)
-                    {
-                        FireMissile(new Vector2(i, 1), true, speed, rotationSpeed, startPos, null);
-                    }
-                    else
-                    {
-                        FireMissile(new Vector2(-i + 1f, 1), true, speed, rotationSpeed, startPos, null);
-                    }
-                }
-                else
-                {
-                    if (i == 0)
-                    {
-                        FireMissile(new Vector2(0, 1), true, speed, rotationSpeed, startPos, null);
-                    }
-                    else if (i % 2 == 0)
-                    {
-                        FireMissile(new Vector2(i, 1), true, speed, rotationSpeed, startPos, null);
-                    }
-                    else
-                    {
-                        FireMissile(new Vector2(-i + 1f, 1), true, speed, rotationSpeed, startPos, null);
-                    }
-                }
+                FireMissile(new Vector2(Random.Range(-1f, 1f), 1), true, speed, rotationSpeed, startPos, null);
             }
+            yield return new WaitForSeconds(0.05f);
         }
+        //foreach (GameObject enemy in enemies)
+        //{
+        //    if (count < size)
+        //    {
+        //        if (enemies.Count % 2 == 0)
+        //        {
+        //            if (count % 2 == 0)
+        //            {
+        //                FireMissile(new Vector2(count/(count-0.9f), 1), true, speed, rotationSpeed, startPos, enemy);
+        //            }
+        //            else
+        //            {
+        //                FireMissile(new Vector2(-count/ (count - 0.9f), 1), true, speed, rotationSpeed, startPos, enemy);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (count == 0)
+        //            {
+        //                FireMissile(new Vector2(0, 1), true, speed, rotationSpeed, startPos, enemy);
+        //            }
+        //            else if (count % 2 == 0)
+        //            {
+        //                FireMissile(new Vector2(count/ (count - 0.9f), 1), true, speed, rotationSpeed, startPos, enemy);
+        //            }
+        //            else
+        //            {
+        //                FireMissile(new Vector2(-count/ (count - 0.5f), 1), true, speed, rotationSpeed, startPos, enemy);
+        //            }
+        //        }
+
+        //        count++;
+        //        yield return new WaitForSeconds(0.05f);
+        //    }
+        //}
+
+        //int remaining = size - enemies.Count;
+        //if (remaining > 0)
+        //{
+        //    for (int i = 0; i < remaining; i++)
+        //    {
+        //        if (remaining % 2 == 0)
+        //        {
+        //            if (i % 2 == 0)
+        //            {
+        //                FireMissile(new Vector2(i, 1), true, speed, rotationSpeed, startPos, null);
+        //            }
+        //            else
+        //            {
+        //                FireMissile(new Vector2(-i / (i - 0.9f), 1), true, speed, rotationSpeed, startPos, null);
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (i == 0)
+        //            {
+        //                FireMissile(new Vector2(0, 1), true, speed, rotationSpeed, startPos, null);
+        //            }
+        //            else if (i % 2 == 0)
+        //            {
+        //                FireMissile(new Vector2(i / (i - 0.9f), 1), true, speed, rotationSpeed, startPos, null);
+        //            }
+        //            else
+        //            {
+        //                FireMissile(new Vector2(-i / (i - 0.5f), 1), true, speed, rotationSpeed, startPos, null);
+        //            }
+        //        }
+
+        //        yield return new WaitForSeconds(0.05f);
+        //    }
+        //}
+
     }
 
 

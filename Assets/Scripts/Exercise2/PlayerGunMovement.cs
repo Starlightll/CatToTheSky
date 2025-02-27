@@ -13,6 +13,7 @@ public class PlayerGunMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (PlaySceneController.isPaused) return;
         RotateGunTowardsMouse();
     }
 

@@ -7,6 +7,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private float spawnRate = 1f;
     [SerializeField] private float spawnRadius = 1f;
+    public float enemySpeed = 5f;
     private float spawnTimer = 0f;
     [SerializeField] private float spawnTimerMax = 1f;
     [SerializeField] int enemyPoolSize = 100;
@@ -35,12 +36,16 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
+        if (PlaySceneController.isPaused) return;
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnTimerMax && enemyPoolSize > 0)
         {
             spawnTimer = 0f;
             GameObject enemy = enemies.Dequeue();
             enemy.SetActive(true);
+            EnemyMovement enemyMovement = enemy.GetComponent<EnemyMovement>();
+            enemyMovement.setIsHit(false);
+            enemyMovement.setSpeed(enemySpeed);
             enemy.transform.rotation = Quaternion.Euler(0, 0, 180);
             enemy.transform.position = new Vector2(Random.Range(-spawnRadius, spawnRadius), transform.position.y);
 
@@ -60,9 +65,9 @@ public class EnemySpawner : MonoBehaviour
  
     public void KillEnemy (GameObject gameObject)
     {
-        DeactiveEnemy(gameObject);
         try
         {
+            DeactiveEnemy(gameObject);
             scoreController.AddScore(1);
         }
         catch

@@ -16,10 +16,8 @@ public class PlayerTestController : MonoBehaviour
     [Range(0, .3f)][SerializeField] private float movementSmoothing = .05f;
 
     public bool isGrounded = false;
-    private bool wasGrounded = false;
     private bool m_FacingRight = true;
     private Vector3 velocity = Vector3.zero;
-    public Animator animator;
 
     [Header("Events")]
     [Space]
@@ -42,6 +40,8 @@ public class PlayerTestController : MonoBehaviour
 
     private void Update()
     {
+       
+
         if(Input.GetKeyDown(KeyCode.Comma))
         {
             if (gameObject.IsDestroyed())
@@ -54,6 +54,8 @@ public class PlayerTestController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        
+
         bool wasGrounded = isGrounded;
         //Debug.Log(isGrounded);
         isGrounded = false;
