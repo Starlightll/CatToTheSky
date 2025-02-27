@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -8,18 +9,29 @@ public class HealthController : MonoBehaviour
     public Image fillImage;
     public float maxHealth = 100;
     public float currentHealth;
+    [SerializeField] GameObject player;
+    public float timeBeforeNextScene = 3f;
+    public AudioSource deathSound;
+
+    [Header("Explosion Setting")]
+    public GameObject explosionPrefab;
+    public float destroyTime = 5f;
+    
+    private bool isAlive;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        isAlive = true;
         UpdateHealthBar();
     }
 
 
     private void Update()
     {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && isAlive)
         {
+            isAlive = false;
             Die();
         }
     }
@@ -40,10 +52,19 @@ public class HealthController : MonoBehaviour
 
     void Die()
     {
+        
+        GameObject explosion = Instantiate(explosionPrefab, player.transform.position, Quaternion.identity);
+        explosion.transform.position = player.transform.position;
+        Destroy(explosion, destroyTime);
+        if (deathSound != null)
+            deathSound.Play();
         ScoreController.SaveCurrentScore();
         ScoreController.SaveBestScore();
+        ScoreController.score = 0;
         SceneManager.LoadScene("DeadScene");
     }
+
+   
 
 
 

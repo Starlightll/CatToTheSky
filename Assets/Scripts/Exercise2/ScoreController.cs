@@ -22,6 +22,7 @@ public class ScoreController : MonoBehaviour
         {
             Debug.LogError("Score Text is not assigned");
             scoreText = GameObject.Find("ScoreText").GetComponent<TMPro.TextMeshProUGUI>();
+            score = 0;
         }
         else
         {

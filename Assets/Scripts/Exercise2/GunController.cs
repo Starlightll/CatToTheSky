@@ -8,7 +8,7 @@ public class GunController : MonoBehaviour
     public GameObject missilePrefab;
     public Transform firePoint; 
     public float bulletSpeed = 10f;
-    [SerializeField] int bulletPoolSize = 50;
+    [SerializeField] int bulletPoolSize = 100;
     private Animator animator;
     public Queue<GameObject> bulletPool = new Queue<GameObject>();
     private HomingMissileController homingMissileController;
@@ -20,7 +20,6 @@ public class GunController : MonoBehaviour
     public Transform muzzlePoint;
 
     
-
 
     [Header("Missile Setting")]
     public float speed = 20f;

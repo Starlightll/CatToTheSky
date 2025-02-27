@@ -10,5 +10,5 @@ public class Skill
     public Image BlackFilter;
     public Image SkillNotReadyBorder;
     public Image SkillReadyBorder;
-
+    public AudioClip SkillSound;
 }

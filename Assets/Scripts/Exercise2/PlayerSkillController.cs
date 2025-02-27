@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class PlayerSkillController : MonoBehaviour
 {
@@ -13,12 +14,14 @@ public class PlayerSkillController : MonoBehaviour
     public Transform FirePoint;
     public CooldownManager CooldownManager;
     public List<Skill> Skills = new List<Skill>();
+    private AudioSource _audioSource;
 
     private HomingMissileController _homeHomingMissileController;
     private Dictionary<string, Skill> skillDictionary = new Dictionary<string, Skill>();
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _audioSource = GetComponent<AudioSource>();
         _homeHomingMissileController = GetComponent<HomingMissileController>();
         foreach (Skill skill in Skills)
         {
@@ -45,6 +48,10 @@ public class PlayerSkillController : MonoBehaviour
         if ((!CooldownManager.IsCooldown(skillName) || InstantlyCooldown == true) && skillDictionary.ContainsKey(skillName))
         {
             Debug.Log($"🌀 Cast {skillName}!");
+            if (skillDictionary[skillName].SkillSound != null)
+            {
+                
+            }
             CastSkill(skillName);
             CooldownManager.StartCooldown(skillName, skillDictionary[skillName].CooldownTime);
             return true;
